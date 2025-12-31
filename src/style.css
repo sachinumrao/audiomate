@@ -1,0 +1,16 @@
+.st-key-sidebar_task_label label p {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.st-key-sidebar_tts_model_label label p {
+    font-size: 16px;
+}
+
+.st-key-sidebar_tts_voice_label label p {
+    font-size: 16px;
+}
+
+.st-key-sidebar_tts_speed label p {
+    font-size: 16px;
+}
