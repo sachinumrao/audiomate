@@ -1,22 +1,24 @@
-from abc import ABC, abstractmethod
 import wave
+from abc import ABC, abstractmethod
+
 from piper import PiperVoice
 
-voice = PiperVoice.load("./models/en_US-lessac-medium.onnx")
-with wave.open("./results/test.wav", "wb") as wav_file:
-    voice.synthesize_wav("Welcome to the world of speech synthesis!", wav_file)
 
+class BaseTTSModel(ABC):
+    @abstractmethod
+    def load_model(self, model_path: str):
+        pass
 
-class TTSModel(ABC):
     @abstractmethod
     def generate_audio(self, text: str, output_filepath: str):
         pass
 
-class PiperTTSModel(TTSModel):
-    def __init__(self, model_path: str) -> None:
+
+class PiperTTSModel(BaseTTSModel):
+    def load_model(self, model_path: str) -> None:
         self.model = PiperVoice.load(model_path)
 
-    def generate_audio(self, text:str, output_filepath:str):
+    def generate_audio(self, text: str, output_filepath: str) -> None:
         with wave.open(output_filepath, "wb") as wav_file:
             self.model.synthesize_wav(text, wav_file)
 
@@ -33,6 +35,6 @@ if __name__ == "__main__":
     model_name = "./models/en_US-lessac-medium.onnx"
     output_filepath = "./results/news.wav"
 
-
-    model = PiperTTSModel(model_name)
-    model.generate_audio(sample_text, output_filepath)
+    piper_model = PiperTTSModel()
+    piper_model.load_model(model_name)
+    piper_model.generate_audio(sample_text, output_filepath)
